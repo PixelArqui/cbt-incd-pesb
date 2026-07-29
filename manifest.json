@@ -1,0 +1,21 @@
+{
+  "name": "Riscos no combate a incêndios",
+  "short_name": "Risco Fogo",
+  "description": "Riscos no combate a incêndios florestais - Serra do Brigadeiro",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0a0e17",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Riscos no combate a incêndios">
+  <meta name="description" content="Riscos no combate a incêndios florestais - Serra do Brigadeiro">
+  <meta name="mobile-web-app-capable" content="yes">
+  
+  <title>Riscos no combate a incêndios - Serra do Brigadeiro</title>
+
+  <!-- PWA Manifest e Ícones -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjgwIiBmaWxsPSIjMGYxNzJhIi8+PGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIxODAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2RjMjYyNiIgc3Ryb2tlLXdpZHRoPSIyNCIvPjxwYXRoIGQ9Ik0yNTYgMTIwYy00MCA2MC04MCAxMjAtODAgMTgwIDAgNDQgMzYgODAgODAgODBzODAtMzYgODAtODBjMC02MC00MC0xMjAtODAtMTgweiIgZmlsbD0iI2Y5NzMxNiIvPjxwYXRoIGQ9Ik0yNTYgMTgwYy0yNSA0MC01MCA4MC01MCAxMjAgMCAyOCAyMiA1MCA1MCA1MHM1MC0yMiA1MC01MGMwLTQwLTI1LTgwLTUwLTEyMHoiIGZpbGw9IiNkYzI2MjYiLz48Y2lyY2xlIGN4PSIyNTYiIGN5PSIzMDAiIHI9IjIwIiBmaWxsPSIjZmZmIi8+PC9zdmc+">
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjgwIiBmaWxsPSIjMGYxNzJhIi8+PGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIxODAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2RjMjYyNiIgc3Ryb2tlLXdpZHRoPSIyNCIvPjxwYXRoIGQ9Ik0yNTYgMTIwYy00MCA2MC04MCAxMjAtODAgMTgwIDAgNDQgMzYgODAgODAgODBzODAtMzYgODAtODBjMC02MC00MC0xMjAtODAtMTgweiIgZmlsbD0iI2Y5NzMxNiIvPjxwYXRoIGQ9Ik0yNTYgMTgwYy0yNSA0MC01MCA4MC01MCAxMjAgMCAyOCAyMiA1MCA1MCA1MHM1MC0yMiA1MC01MGMwLTQwLTI1LTgwLTUwLTEyMHoiIGZpbGw9IiNkYzI2MjYiLz48Y2lyY2xlIGN4PSIyNTYiIGN5PSIzMDAiIHI9IjIwIiBmaWxsPSIjZmZmIi8+PC9zdmc+">
+
+  <!-- Fontes e Estilos Externos -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Estilo Local da Aplicação -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Banners do Sistema PWA e Offline -->
+  <div class="offline-badge" id="offlineBadge">Sem conexão - Dados em cache</div>
+  
+  <div class="install-banner" id="installBanner">
+    <div>
+      <div class="install-banner-text">Instalar Riscos no combate a incêndios</div>
+      <div class="install-banner-sub">Acesse offline na sua tela inicial</div>
+    </div>
+    <div style="display:flex;align-items:center">
+      <button class="install-btn" id="installBtn">Instalar</button>
+      <button class="install-close" id="installClose">x</button>
+    </div>
+  </div>
+
+  <!-- Container Principal do App -->
+  <div id="app">
+    
+    <!-- Cabeçalho -->
+    <div class="header">
+      <div class="header-left">
+        <div class="header-icon">&#128293;</div>
+        <div class="header-title">
+          <h1>Riscos no combate a incêndios</h1>
+          <span>Parque Estadual Serra do Brigadeiro - 8 Municípios</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="last-update" id="lastUpdate">Atualizando...</div>
+        <button class="refresh-btn" id="refreshBtn">Atualizar</button>
+      </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+      
+      <!-- Barra Lateral (Sidebar) -->
+      <div class="sidebar">
+        
+        <!-- 1. Risco no Combate a Incêndios -->
+        <div class="sidebar-section">
+          <div class="section-title">Risco no Combate a Incêndios</div>
+          <div class="risk-gauge-container">
+            <div class="risk-gauge">
+              <div class="gauge-bg"></div>
+              <div class="gauge-needle" id="gaugeNeedle"></div>
+              <div class="gauge-center"></div>
+            </div>
+            <div class="gauge-labels">
+              <span>BAIXO</span><span>MÉDIO</span><span>ALTO</span><span>EXTREMO</span>
+            </div>
+            <div class="gauge-value">
+              <div class="value" id="gaugeValue" style="color:#22c55e">0%</div>
+              <div class="label" id="gaugeLabel">Calculando...</div>
+            </div>
+          </div>
+          
+          <div class="legend-toggle" id="legendToggle">
+            <span class="legend-toggle-text">Legenda Risco de Combate</span>
+            <span class="legend-toggle-icon" id="legendToggleIcon">&#9662;</span>
+          </div>
+          <div class="legend-items" id="legendItems">
+            <div class="legend-item"><div class="legend-color" style="background:#22c55e"></div><span class="legend-text">Baixo - Condições favoráveis</span></div>
+            <div class="legend-item"><div class="legend-color" style="background:#eab308"></div><span class="legend-text">Médio - Atenção necessária</span></div>
+            <div class="legend-item"><div class="legend-color" style="background:#f97316"></div><span class="legend-text">Alto - Risco elevado</span></div>
+            <div class="legend-item"><div class="legend-color" style="background:#dc2626"></div><span class="legend-text">Extremo - Combate perigoso</span></div>
+          </div>
+        </div>
+
+        <!-- 2. Focos de Calor (FIRMS) -->
+        <div class="sidebar-section">
+          <div class="section-title">Focos de Calor (FIRMS)</div>
+          <div class="fire-summary">
+            <div class="fire-stat">
+              <div class="fire-stat-value" id="fireCount">-</div>
+              <div class="fire-stat-label">Focos Detectados</div>
+            </div>
+            <div class="fire-stat">
+              <div class="fire-stat-value" id="fireFrp">-</div>
+              <div class="fire-stat-label">FRP Médio (MW)</div>
+            </div>
+          </div>
+          <div style="margin-top:10px;font-size:10px;color:#64748b;text-align:center">Dados MODIS/VIIRS - NASA FIRMS</div>
+          
+          <div class="legend-toggle" id="frpLegendToggle">
+            <span class="legend-toggle-text">O que é FRP?</span>
+            <span class="legend-toggle-icon" id="frpLegendToggleIcon">&#9662;</span>
+          </div>
+          <div class="legend-items" id="frpLegendItems">
+            <div style="font-size:10px;color:#94a3b8;margin-bottom:6px;padding:0 2px"><b>Fire Radiative Power</b> — Potência Radiativa do Fogo. Mede a intensidade da energia do incêndio em <b>Megawatts (MW)</b>.</div>
+            <div class="legend-item">
+              <div class="legend-color" style="background:#22c55e"></div>
+              <span class="legend-text"><b>Fraco</b> (&lt;10 a 20 MW)<br><span style="font-size:9px;color:#94a3b8">Pequenos focos, limpeza de pasto, queimadas agrícolas ou cafeeiras controladas.</span></span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background:#eab308"></div>
+              <span class="legend-text"><b>Médio</b> (20 a 50 MW)<br><span style="font-size:9px;color:#94a3b8">Focos em expansão e queimadas em pastagens ou mata secundária com biomassa seca.</span></span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background:#dc2626"></div>
+              <span class="legend-text"><b>Forte</b> (&gt;50 a 100+ MW)<br><span style="font-size:9px;color:#94a3b8">Incêndios florestais intensos ou de avanço rápido em vegetação densa e Mata Atlântica.</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Risco de Incêndios (FMA) -->
+        <div class="sidebar-section">
+          <div class="section-title">Risco de Incêndios (FMA)</div>
+          <div class="fma-gauge-container">
+            <div class="fma-gauge">
+              <div class="fma-gauge-bg"></div>
+              <div class="fma-gauge-needle" id="fmaGaugeNeedle"></div>
+              <div class="fma-gauge-center"></div>
+            </div>
+            <div class="fma-gauge-labels">
+              <span>NULO</span><span>PEQ</span><span>MÉD</span><span>ALT</span><span>MUITO ALT</span>
+            </div>
+            <div class="fma-gauge-value">
+              <div class="value" id="fmaGaugeValue" style="color:#2563eb">0.0</div>
+              <div class="label" id="fmaGaugeLabel">FMA Calculando...</div>
+            </div>
+          </div>
+          
+          <div class="legend-items" style="margin-top:10px; max-height: 1000px; opacity: 1;">
+            <div class="legend-item"><div class="legend-color" style="background:#2563eb"></div><span class="legend-text">Nulo (&lt;=1.0)</span></div>
+            <div class="legend-item"><div class="legend-color" style="background:#22c55e"></div><span class="legend-text">Pequeno (1.1-3.0)</span></div>
+            <div class="legend-item"><div class="legend-color" style="background:#eab308"></div><span class="legend-text">Médio (3.1-8.0)</span></div>
+            <div class="legend-item"><div class="legend-color" style="background:#f97316"></div><span class="legend-text">Alto (8.1-24.0)</span></div>
+            <div class="legend-item"><div class="legend-color" style="background:#dc2626"></div><span class="legend-text">Muito Alto (&gt;24.0)</span></div>
+          </div>
+          
+          <div class="legend-toggle" id="fmaLegendToggle">
+            <span class="legend-toggle-text">O que é FMA?</span>
+            <span class="legend-toggle-icon" id="fmaLegendToggleIcon">&#9662;</span>
+          </div>
+          <div class="legend-items" id="fmaLegendItems">
+            <div style="font-size:10px;color:#94a3b8;margin-bottom:6px;padding:0 2px"><b>FMA — Fogo de Mato Alegre</b> ou <b>Índice de Risco de Incêndio</b>. Calculado a partir da <b>umidade relativa do ar às 13h (UR13h)</b> e da <b>precipitação nas últimas 24h</b>.</div>
+            <div class="legend-item">
+              <div class="legend-color" style="background:#2563eb"></div>
+              <span class="legend-text"><b>Nulo</b> (&lt;=1.0)<br><span style="font-size:9px;color:#94a3b8">Umidade alta ou chuva recente. Risco praticamente inexistente.</span></span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background:#22c55e"></div>
+              <span class="legend-text"><b>Pequeno</b> (1.1-3.0)<br><span style="font-size:9px;color:#94a3b8">Condições úmidas. Focos isolados podem ocorrer, mas propagação é lenta.</span></span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background:#eab308"></div>
+              <span class="legend-text"><b>Médio</b> (3.1-8.0)<br><span style="font-size:9px;color:#94a3b8">Umidade moderada. Queimadas em pastagens e matas secas são prováveis.</span></span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background:#f97316"></div>
+              <span class="legend-text"><b>Alto</b> (8.1-24.0)<br><span style="font-size:9px;color:#94a3b8">Condições secas. Incêndios florestais com propagação moderada a rápida.</span></span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background:#dc2626"></div>
+              <span class="legend-text"><b>Muito Alto</b> (&gt;24.0)<br><span style="font-size:9px;color:#94a3b8">Extrema seca. Incêndios de grande porte, comportamento extremo e difícil contenção.</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Municípios -->
+        <div class="sidebar-section">
+          <div class="section-title">Municípios Monitorados</div>
+          <div class="muni-cards" id="muniCards"></div>
+        </div>
+
+        <!-- 5. Distritos -->
+        <div class="sidebar-section">
+          <div class="section-title">Distritos Monitorados</div>
+          <div class="muni-cards" id="distritoCards"></div>
+        </div>
+      </div>
+
+      <!-- Área do Mapa -->
+      <div class="map-container">
+        <div id="map"></div>
+        
+        <div class="map-controls">
+          <button class="map-control-btn active" id="btnStreet" data-layer="street">Ruas</button>
+          <button class="map-control-btn" id="btnSat" data-layer="satellite">Satélite</button>
+          <button class="map-control-btn" id="btnTopo" data-layer="topo">Topográfico</button>
+          <button class="map-control-btn active" id="btnWind">Vento</button>
+        </div>
+        
+        <div class="wind-legend" id="windLegend" style="display:none">
+          <div class="wind-legend-title">Vento (km/h)</div>
+          <div class="wind-legend-bar"></div>
+          <div class="wind-legend-labels">
+            <span>0</span><span>10</span><span>20</span><span>30+</span>
+          </div>
+        </div>
+        
+        <div class="loading-overlay" id="loadingOverlay">
+          <div class="spinner"></div>
+          <div class="loading-text" id="loadingText">Carregando dados meteorológicos...</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts Externos com defer (carregamento não bloqueante) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  
+  <!-- Lógica da Aplicação -->
+  <script src="js/data.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
